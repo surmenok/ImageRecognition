@@ -5,7 +5,8 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.networks.BasicNetwork;
-import org.surmenok.ml.images.*;
+import org.surmenok.ml.images.Image;
+import org.surmenok.ml.images.NeuralNetworkTrainer;
 import org.surmenok.ml.images.ui.DisplayWindow;
 
 import java.awt.*;
@@ -15,18 +16,45 @@ public class ObjectFinder {
     public static void main(String[] args) throws IOException, InterruptedException {
         ObjectFinderTrainingImage[] trainingImages = new ObjectFinderTrainingImage[] {
                 new ObjectFinderTrainingImage(
-                        "c:\\Users\\Pavel\\Documents\\10658991_10204639006436569_6385980699179530729_o.jpg",
+                        "c:\\Stuff\\FaceDataset\\10658991_10204639006436569_6385980699179530729_o.jpg",
                         new Rectangle[] { new Rectangle(925, 379, 68, 48), new Rectangle(1039, 375, 68, 48) },
                         new Rectangle(846, 232, 273, 412)),
+                new ObjectFinderTrainingImage(
+                        "c:\\Stuff\\FaceDataset\\10352279_651731814909294_3100729513699646121_n.jpg",
+                        new Rectangle[] { new Rectangle(204, 191, 50, 24), new Rectangle(294, 168, 44, 23) },
+                        new Rectangle(144, 47, 240, 307)),
+                new ObjectFinderTrainingImage(
+                        "c:\\Stuff\\FaceDataset\\10676297_795597673839604_1948879107895952245_n.jpg",
+                        new Rectangle[] { new Rectangle(331, 252, 62, 33) },
+                        new Rectangle(200, 139, 219, 332)),
+                new ObjectFinderTrainingImage(
+                        "c:\\Stuff\\FaceDataset\\1899585_792173544182017_2134665958331419897_o.jpg",
+                        new Rectangle[] { new Rectangle(735, 484, 78, 48), new Rectangle(905, 494, 81, 46) },
+                        new Rectangle(688, 301, 315, 467)),
+                new ObjectFinderTrainingImage(
+                        "c:\\Stuff\\FaceDataset\\IMG_20131012_182413.jpg",
+                        new Rectangle[] { new Rectangle(497, 365, 35, 20), new Rectangle(558, 380, 30, 19) },
+                        new Rectangle(464, 292, 130, 204)),
         };
 
-        int sampleWidth = 70;
+        ObjectFinderTrainingImage[] validationImages = new ObjectFinderTrainingImage[] {
+                new ObjectFinderTrainingImage(
+                        "c:\\Stuff\\FaceDataset\\209424_393582624040171_1451488914_o.jpg",
+                        new Rectangle[] { new Rectangle(331, 512, 176, 81), new Rectangle(629, 449, 189, 93) },
+                        new Rectangle(150, 120, 880, 920)),
+                new ObjectFinderTrainingImage(
+                        "c:\\Stuff\\FaceDataset\\x_d92319ca.jpg",
+                        new Rectangle[] { new Rectangle(235, 148, 41, 21), new Rectangle(323, 153, 38, 21) },
+                        new Rectangle(194, 57, 192, 252)),
+        };
+
+        int sampleWidth = 90;
         int sampleHeight = 50;
 
         DataSetBuilder dataSetBuilder = new DataSetBuilder();
 
-        MLDataSet trainingSet = dataSetBuilder.build(trainingImages, sampleWidth, sampleHeight, 1000);
-        MLDataSet validationSet = dataSetBuilder.build(trainingImages, sampleWidth, sampleHeight, 100);
+        MLDataSet trainingSet = dataSetBuilder.build(trainingImages, sampleWidth, sampleHeight, 2);
+        MLDataSet validationSet = dataSetBuilder.build(validationImages, sampleWidth, sampleHeight, 2);
 
         int iterationsCount = 3;
         int epochsCount = 20;
@@ -48,14 +76,14 @@ public class ObjectFinder {
 
         BasicNetwork network = trainer.getBestNetwork();
 
-        String fileName = "c:\\Users\\Pavel\\Documents\\10658991_10204639006436569_6385980699179530729_o.jpg";
-        analyze(fileName, network, sampleWidth, sampleHeight, new Rectangle(846, 232, 273, 412));
+        String fileName = "c:\\Stuff\\FaceDataset\\209424_393582624040171_1451488914_o.jpg";
+        analyze(fileName, network, sampleWidth, sampleHeight, new Rectangle(150, 120, 880, 920));
 
         Encog.getInstance().shutdown();
     }
 
     private static void analyze(String fileName, BasicNetwork network, int sampleWidth, int sampleHeight, Rectangle borderRectangle) throws IOException {
-        org.surmenok.ml.images.Image image = new org.surmenok.ml.images.Image(fileName);
+        Image image = new org.surmenok.ml.images.Image(fileName);
         int width = image.getWidth();
         int height = image.getHeight();
 
