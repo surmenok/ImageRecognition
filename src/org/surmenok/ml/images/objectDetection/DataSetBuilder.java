@@ -17,6 +17,7 @@ public class DataSetBuilder {
 
         for(int i = 0; i < trainingImages.length; i++) {
             ObjectFinderTrainingImage trainingImage = trainingImages[i];
+            System.out.println("Getting samples from " + trainingImage.getFileName());
 
             org.surmenok.ml.images.Image image = new org.surmenok.ml.images.Image(trainingImage.getFileName());
             int width = image.getWidth();
