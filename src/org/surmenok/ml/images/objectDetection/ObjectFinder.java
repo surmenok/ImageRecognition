@@ -5,6 +5,7 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.networks.BasicNetwork;
+import org.surmenok.ml.images.ClassificationError;
 import org.surmenok.ml.images.Image;
 import org.surmenok.ml.images.NeuralNetworkTrainer;
 import org.surmenok.ml.images.ui.DisplayWindow;
@@ -63,7 +64,7 @@ public class ObjectFinder {
         String[] activationTypes = new String[] { "Sigmoid" };
         String[] trainingTypes = new String[] { "ResilientPropagation" };
 
-        NeuralNetworkTrainer trainer = new NeuralNetworkTrainer();
+        NeuralNetworkTrainer trainer = new NeuralNetworkTrainer(new ClassificationError());
         trainer.setActivationTypes(activationTypes);
         trainer.setTrainingTypes(trainingTypes);
         trainer.setIterationsCount(iterationsCount);
